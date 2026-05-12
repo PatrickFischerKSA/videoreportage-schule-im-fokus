@@ -19,7 +19,7 @@
       <nav aria-label="Hauptnavigation">
         <a href="#auftrag">Auftrag</a>
         <a href="#werkstatt">Werkstatt</a>
-        <a href="#galerie">Galerie</a>
+        <a href="#ressourcen">Ressourcen</a>
         <a href="#bewertung">Bewertung</a>
       </nav>
     </header>
@@ -36,6 +36,7 @@
           </p>
           <div class="hero-actions">
             <a class="button primary" href="#werkstatt">Projekt starten</a>
+            <a class="button secondary" href="#ressourcen">Lernfilme ansehen</a>
             <a class="button secondary" href="assets/Videoreportage_Schule_im_Fokus.docx">Auftrag herunterladen</a>
           </div>
         </div>
@@ -64,7 +65,8 @@
         <p>
           Inspiriert von der Blaue-Becher-Beispielseite
           <a href="https://blauebecher.com/2025/08/05/geschichten-die-die-schule-schreibt/">«Geschichten, die die Schule schreibt»</a>:
-          ein kurzer redaktioneller Rahmen, danach sichtbare Schüler*innen-Produkte mit klaren Teasern.
+          ein kurzer redaktioneller Rahmen, danach sichtbare Schüler*innen-Produkte mit klaren Teasern. Diese Plattform ergänzt das um eine Werkstatt,
+          damit die Filme nicht nur gesammelt, sondern besser geplant, gedreht und geschnitten werden.
         </p>
       </section>
 
@@ -150,68 +152,137 @@
         </div>
       </section>
 
-      <section id="galerie" class="section" aria-labelledby="galerie-title">
+      <section id="ressourcen" class="section resources" aria-labelledby="ressourcen-title">
         <div class="section-heading split">
           <div>
-            <p class="eyebrow">Publikation</p>
-            <h2 id="galerie-title">Galerie der Reportagen</h2>
+            <p class="eyebrow">Ressourcen</p>
+            <h2 id="ressourcen-title">Lernfilme für eure Reportage</h2>
+            <p>
+              Fokussierte Auswahl aus dem Kanal von Rainer Wolf: nur das, was für eine
+              schulische 5-Minuten-Reportage wirklich weiterhilft.
+            </p>
           </div>
-          <div class="filters" aria-label="Galerie filtern">
+          <div class="filters" aria-label="Ressourcen filtern">
             <button class="filter is-active" type="button" data-filter="all">Alle</button>
-            <button class="filter" type="button" data-filter="alltag">Alltag</button>
-            <button class="filter" type="button" data-filter="digital">Digital</button>
-            <button class="filter" type="button" data-filter="menschen">Menschen</button>
+            <button class="filter" type="button" data-filter="start">Start</button>
+            <button class="filter" type="button" data-filter="interview">Interview</button>
+            <button class="filter" type="button" data-filter="story">Story</button>
+            <button class="filter" type="button" data-filter="bild">Bild</button>
           </div>
         </div>
 
-        <div class="report-grid">
-          <article class="report-card" data-category="alltag">
-            <div class="video-placeholder">
-              <span>Video</span>
+        <div class="resource-grid">
+          <article class="resource-card report-card" data-category="start">
+            <iframe
+              src="https://www.youtube-nocookie.com/embed/cRyEIpEqVoY"
+              title="Rainer Wolf: Filmen mit dem Smartphone | 10 Tipps für den Start"
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+            ></iframe>
+            <div class="resource-body">
+              <p class="tag">Start</p>
+              <h3>Smartphone-Filmen: 10 Grundlagen</h3>
+              <p>Für alle Gruppen: bewusster filmen, Ton/Musik mitdenken, nicht einfach Material sammeln.</p>
+              <a href="https://www.youtube.com/watch?v=cRyEIpEqVoY">Auf YouTube öffnen</a>
             </div>
-            <p class="tag">Alltag</p>
-            <h3>Leben im Provisorium</h3>
-            <p>Eine Gruppe berichtet vom Schulalltag zwischen Übergangslösung, Routine und Improvisation.</p>
           </article>
-          <article class="report-card" data-category="menschen">
-            <div class="video-placeholder">
-              <span>Video</span>
+          <article class="resource-card report-card" data-category="interview">
+            <iframe
+              src="https://www.youtube-nocookie.com/embed/1NQhHxKhgKM"
+              title="Rainer Wolf: Ein Interview filmen mit dem iPhone"
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+            ></iframe>
+            <div class="resource-body">
+              <p class="tag">Interview</p>
+              <h3>Interviews mit dem Smartphone filmen</h3>
+              <p>Location, Bildkomposition, Licht, Kameraeinstellung und Ton für schulische Interviews.</p>
+              <a href="https://www.youtube.com/watch?v=1NQhHxKhgKM">Auf YouTube öffnen</a>
             </div>
-            <p class="tag">Menschen</p>
-            <h3>Wie fühlt sich Schulklima an?</h3>
-            <p>Interviews und Beobachtungen verdichten die Frage, was Gemeinschaft an einer Schule ausmacht.</p>
           </article>
-          <article class="report-card" data-category="digital">
-            <div class="video-placeholder">
-              <span>Video</span>
+          <article class="resource-card report-card" data-category="interview">
+            <iframe
+              src="https://www.youtube-nocookie.com/embed/ovF2EB0k71E"
+              title="Rainer Wolf: Wie filmt man ein Interview?"
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+            ></iframe>
+            <div class="resource-body">
+              <p class="tag">Interview</p>
+              <h3>Interview inszenieren, ohne es künstlich wirken zu lassen</h3>
+              <p>Ruhiger Ort, kontrollierbares Licht, Tiefe im Bild und mehrere Einstellungsgrößen.</p>
+              <a href="https://www.youtube.com/watch?v=ovF2EB0k71E">Auf YouTube öffnen</a>
             </div>
-            <p class="tag">Digital</p>
-            <h3>Digitalisierung unter der Lupe</h3>
-            <p>Eine Reportage über Geräte, Gewohnheiten, Ablenkung und neue Lernmöglichkeiten.</p>
           </article>
-          <article class="report-card" data-category="menschen">
-            <div class="video-placeholder">
-              <span>Video</span>
+          <article class="resource-card report-card" data-category="story">
+            <iframe
+              src="https://www.youtube-nocookie.com/embed/_o9bIzEPzpM"
+              title="Rainer Wolf: Storytelling für Filmanfänger"
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+            ></iframe>
+            <div class="resource-body">
+              <p class="tag">Story</p>
+              <h3>Storytelling statt Themenreferat</h3>
+              <p>Hilft beim roten Faden: Figur, Frage, Konflikt, Wendepunkt und Schlussbild.</p>
+              <a href="https://www.youtube.com/watch?v=_o9bIzEPzpM">Auf YouTube öffnen</a>
             </div>
-            <p class="tag">Menschen</p>
-            <h3>Arbeit, die man selten sieht</h3>
-            <p>Hausdienst, Sekretariat, Mensa und Technik erzählen, was Schule im Hintergrund trägt.</p>
           </article>
-          <article class="report-card" data-category="alltag">
-            <div class="video-placeholder">
-              <span>Video</span>
+          <article class="resource-card report-card" data-category="bild">
+            <iframe
+              src="https://www.youtube-nocookie.com/embed/e7k_qmS2Erc"
+              title="Rainer Wolf: 5 Tipps, die jeder Filmanfänger kennen sollte"
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+            ></iframe>
+            <div class="resource-body">
+              <p class="tag">Bild</p>
+              <h3>5 Anfänger-Tipps für stärkere Bilder</h3>
+              <p>Kamerabewegung, Nähe, Vordergrund, Komposition und bewusstes Licht.</p>
+              <a href="https://www.youtube.com/watch?v=e7k_qmS2Erc">Auf YouTube öffnen</a>
             </div>
-            <p class="tag">Alltag</p>
-            <h3>Schule während der Pandemie</h3>
-            <p>Spurensuche zu Erinnerungen, Brüchen und Dingen, die geblieben sind.</p>
           </article>
-          <article class="report-card" data-category="digital">
-            <div class="video-placeholder">
-              <span>Video</span>
+          <article class="resource-card report-card channel-card" data-category="all">
+            <div class="channel-panel">
+              <p class="eyebrow">Kanal</p>
+              <h3>Rainer Wolf / Wolffilms</h3>
+              <p>
+                Weitere Tutorials zu Smartphone-Filmen, Kameraführung, Licht, Schnitt,
+                Sound und KI-Video. Für dieses Projekt zuerst die ausgewählten Filme oben nutzen.
+              </p>
+              <a class="button primary" href="https://www.youtube.com/@rainer_wolf">Kanal öffnen</a>
             </div>
-            <p class="tag">Digital</p>
-            <h3>KI im Klassenzimmer</h3>
-            <p>Was verändert sich, wenn Maschinen mitschreiben, erklären und mitdenken?</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="galerie" class="section publication" aria-labelledby="galerie-title">
+        <div class="section-heading">
+          <p class="eyebrow">Publikation</p>
+          <h2 id="galerie-title">So werden Klassenfilme eingebunden</h2>
+          <p>
+            Sobald die fertigen Videos vorliegen, werden hier keine Platzhalter angezeigt,
+            sondern echte Einbettungen: YouTube/Vimeo-Embed, Schulserver-Link oder lokale
+            Videodatei. Jede Karte braucht Titel, Kurzteaser, Credits und Quellenhinweis.
+          </p>
+        </div>
+        <div class="publish-grid">
+          <article>
+            <strong>1 · Video veröffentlichen</strong>
+            <p>Als ungelistetes YouTube-/Vimeo-Video oder als freigegebene Datei bereitstellen.</p>
+          </article>
+          <article>
+            <strong>2 · Embed-Link einsetzen</strong>
+            <p>Die URL in die Galerie-Karte eintragen; die Plattform zeigt dann den Film direkt an.</p>
+          </article>
+          <article>
+            <strong>3 · Redaktionellen Teaser schreiben</strong>
+            <p>Maximal zwei Sätze: Thema, Perspektive, was man nach dem Film anders sieht.</p>
           </article>
         </div>
       </section>
@@ -219,27 +290,43 @@
       <section id="bewertung" class="section assessment" aria-labelledby="bewertung-title">
         <div class="section-heading">
           <p class="eyebrow">Bewertung</p>
-          <h2 id="bewertung-title">60 Punkte in zwei Fachperspektiven</h2>
+          <h2 id="bewertung-title">Qualitätskompass für Planung, Dreh und Schnitt</h2>
+          <p>
+            Die Punkte zählen am Schluss. Entscheidend beim Arbeiten ist die Frage:
+            Ist die Reportage beobachtend, konkret, hörbar, sichtbar und dramaturgisch geführt?
+          </p>
         </div>
-        <div class="rubric">
+        <div class="rubric detailed-rubric">
           <article>
-            <h3>Deutsch · 30 Punkte</h3>
+            <h3>1 · Fokus & Aussage</h3>
             <ul>
-              <li>Inhalt & Aussage</li>
-              <li>Recherche & Beobachtung</li>
-              <li>Dramaturgie & Aufbau</li>
-              <li>Sprachliche Gestaltung</li>
-              <li>Reflexion & Eigenständigkeit</li>
+              <li>Eine klare Frage führt durch den Film.</li>
+              <li>Der Film zeigt mehr als eine Meinung oder Behauptung.</li>
+              <li>Die Perspektive ist eigenständig, nicht nur «Schule ist stressig».</li>
             </ul>
           </article>
           <article>
-            <h3>Kommunikation · 30 Punkte</h3>
+            <h3>2 · Recherche & Beobachtung</h3>
             <ul>
-              <li>Bildgestaltung</li>
-              <li>Ton & Verständlichkeit</li>
-              <li>Schnitt & Technik</li>
-              <li>Kreativität & Wirkung</li>
-              <li>Arbeitsprozess & Zusammenarbeit</li>
+              <li>Konkrete Orte, Situationen, Stimmen und Details tragen die Aussage.</li>
+              <li>Interviews liefern Beobachtungen, Beispiele und Gegensätze.</li>
+              <li>Fakten werden verständlich eingeordnet und nicht einfach behauptet.</li>
+            </ul>
+          </article>
+          <article>
+            <h3>3 · Bild & Ton</h3>
+            <ul>
+              <li>Jede Einstellung hat eine Aufgabe: Ort zeigen, Handlung zeigen, Reaktion zeigen.</li>
+              <li>Ton ist verständlich; Atmo und Musik überdecken keine Aussagen.</li>
+              <li>Es gibt Variation: Totale, Nähe, Details, Bewegung, ruhige Beobachtung.</li>
+            </ul>
+          </article>
+          <article>
+            <h3>4 · Dramaturgie & Schnitt</h3>
+            <ul>
+              <li>Der Einstieg erzeugt eine Frage oder Irritation.</li>
+              <li>Szenen stehen nicht zufällig nebeneinander, sondern bauen aufeinander auf.</li>
+              <li>Der Schluss beantwortet nicht alles, aber setzt einen erkennbaren Gedanken.</li>
             </ul>
           </article>
         </div>
@@ -247,15 +334,35 @@
 
       <section class="section quality" aria-labelledby="quality-title">
         <div>
-          <p class="eyebrow">Leitfrage</p>
-          <h2 id="quality-title">Was macht eine gute Reportage?</h2>
+          <p class="eyebrow">Checklisten</p>
+          <h2 id="quality-title">Vor der Abgabe muss der Film diese Prüfungen bestehen</h2>
         </div>
-        <ul>
-          <li>Sie zeigt etwas, das man im Schulalltag sonst übersieht.</li>
-          <li>Sie verbindet Beobachtung, Stimmung und Information.</li>
-          <li>Sie bleibt konkret statt allgemein.</li>
-          <li>Sie nutzt filmische Mittel gezielt statt zufällig.</li>
-        </ul>
+        <div class="checklist-grid">
+          <article>
+            <h3>Inhalt</h3>
+            <ul>
+              <li>Wir können die Leitfrage in einem Satz sagen.</li>
+              <li>Mindestens eine Szene zeigt etwas, das man sonst übersieht.</li>
+              <li>Es gibt Widerspruch, Entwicklung oder einen Perspektivwechsel.</li>
+            </ul>
+          </article>
+          <article>
+            <h3>Filmisch</h3>
+            <ul>
+              <li>Kein wichtiges Interview ist unverständlich.</li>
+              <li>Der Film hat genug eigene Bilder und nicht nur sprechende Köpfe.</li>
+              <li>Musik, Atmo und Schnitt dienen der Aussage.</li>
+            </ul>
+          </article>
+          <article>
+            <h3>Publikation</h3>
+            <ul>
+              <li>Titel und Abspann sind vollständig.</li>
+              <li>Fremdmaterial ist klar ausgewiesen.</li>
+              <li>Alle gezeigten Personen dürfen im Film vorkommen.</li>
+            </ul>
+          </article>
+        </div>
       </section>
     </main>
 

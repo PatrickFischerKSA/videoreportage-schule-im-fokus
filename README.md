@@ -7,8 +7,9 @@ Statische GitHub-Pages-Plattform zum Projekt **Videoreportage «Schule im Fokus�
 - Projektauftrag und Anforderungen
 - Werkstatt-Ablauf von Beobachtung bis Schnitt
 - Themenfinder
-- Galerie-Struktur nach dem Vorbild des Blaue-Becher-Beitrags
-- Bewertungsraster für Deutsch und Kommunikation
+- fokussierte Lernfilm-Ressourcen von Rainer Wolf / Wolffilms
+- Publikationsstruktur nach dem Vorbild des Blaue-Becher-Beitrags
+- Qualitätskompass und Abgabe-Checklisten
 - Originalauftrag unter `assets/Videoreportage_Schule_im_Fokus.docx`
 
 ## Lokal öffnen
