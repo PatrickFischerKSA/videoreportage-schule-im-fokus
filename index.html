@@ -19,6 +19,7 @@
       <nav aria-label="Hauptnavigation">
         <a href="#auftrag">Auftrag</a>
         <a href="#werkstatt">Werkstatt</a>
+        <a href="#abgabe">Upload</a>
         <a href="#ressourcen">Ressourcen</a>
         <a href="#bewertung">Bewertung</a>
       </nav>
@@ -36,6 +37,7 @@
           </p>
           <div class="hero-actions">
             <a class="button primary" href="#werkstatt">Projekt starten</a>
+            <a class="button secondary" href="#abgabe">MP4 prüfen</a>
             <a class="button secondary" href="#ressourcen">Lernfilme ansehen</a>
             <a class="button secondary" href="assets/Videoreportage_Schule_im_Fokus.docx">Auftrag herunterladen</a>
           </div>
@@ -97,6 +99,14 @@
             <strong>Pflicht</strong>
             <span>Titel, Abspann, Quellenangaben</span>
           </article>
+          <article>
+            <strong>Fokus</strong>
+            <span>klare Fragestellung oder Perspektive</span>
+          </article>
+          <article>
+            <strong>Abgabe</strong>
+            <span>MP4-Datei mit fertiger Reportage</span>
+          </article>
         </div>
       </section>
 
@@ -112,6 +122,46 @@
           <span>Beobachtungssequenz</span>
           <span>Rechercheteil</span>
           <span>Dokumentarische Szene</span>
+        </div>
+      </section>
+
+      <section id="abgabe" class="section upload-section" aria-labelledby="abgabe-title">
+        <div class="section-heading split">
+          <div>
+            <p class="eyebrow">Abgabe</p>
+            <h2 id="abgabe-title">MP4-Datei lokal prüfen</h2>
+            <p>
+              Wählt eure fertige Videoreportage als MP4-Datei aus. Die Datei wird nur im Browser
+              angezeigt und nicht auf GitHub hochgeladen. Prüft vor der definitiven Abgabe Länge,
+              Ton, Bild, Titel, Abspann und Quellenangaben.
+            </p>
+          </div>
+          <label class="upload-button" for="mp4-upload">MP4 auswählen</label>
+          <input id="mp4-upload" class="visually-hidden" type="file" accept="video/mp4,.mp4">
+        </div>
+        <div class="upload-grid">
+          <div class="upload-preview">
+            <video id="upload-preview" controls hidden></video>
+            <div id="upload-placeholder" class="upload-placeholder">
+              <strong>Noch keine MP4 ausgewählt</strong>
+              <span>Nach dem Auswählen erscheint hier eine lokale Vorschau.</span>
+            </div>
+          </div>
+          <aside class="upload-check">
+            <h3>Dateicheck</h3>
+            <dl id="upload-meta">
+              <div><dt>Datei</dt><dd>offen</dd></div>
+              <div><dt>Typ</dt><dd>MP4 erwartet</dd></div>
+              <div><dt>Größe</dt><dd>offen</dd></div>
+            </dl>
+            <ul>
+              <li>ca. fünf Minuten Laufzeit</li>
+              <li>verständlich hörbarer Ton</li>
+              <li>Titel und Abspann vorhanden</li>
+              <li>Fremdmaterial und Musik mit Quellen ausgewiesen</li>
+              <li>mindestens zwei Elemente: Interview, Umfrage, Off, Beobachtung, Recherche oder Szene</li>
+            </ul>
+          </aside>
         </div>
       </section>
 
@@ -296,38 +346,32 @@
             Ist die Reportage beobachtend, konkret, hörbar, sichtbar und dramaturgisch geführt?
           </p>
         </div>
-        <div class="rubric detailed-rubric">
+        <div class="criteria-grid">
           <article>
-            <h3>1 · Fokus & Aussage</h3>
-            <ul>
-              <li>Eine klare Frage führt durch den Film.</li>
-              <li>Der Film zeigt mehr als eine Meinung oder Behauptung.</li>
-              <li>Die Perspektive ist eigenständig, nicht nur «Schule ist stressig».</li>
-            </ul>
+            <h3>Fach Deutsch · 30 Punkte</h3>
+            <table>
+              <thead><tr><th>Bereich</th><th>Kriterien</th><th>Punkte</th></tr></thead>
+              <tbody>
+                <tr><td>Inhalt & Aussage</td><td>klares Thema; differenzierte Auseinandersetzung; erkennbare Fragestellung oder Perspektive</td><td>0-6</td></tr>
+                <tr><td>Recherche & Beobachtung</td><td>sinnvolle Informationen; passende Beispiele; interessante Beobachtungen oder Interviews</td><td>0-6</td></tr>
+                <tr><td>Dramaturgie & Aufbau</td><td>roter Faden; nachvollziehbare Struktur; sinnvolle Übergänge</td><td>0-6</td></tr>
+                <tr><td>Sprachliche Gestaltung</td><td>verständliche und präzise Sprache; passende Moderation/Kommentare</td><td>0-6</td></tr>
+                <tr><td>Reflexion & Eigenständigkeit</td><td>eigene Ideen; kritische oder originelle Sichtweise; gedankliche Tiefe</td><td>0-6</td></tr>
+              </tbody>
+            </table>
           </article>
           <article>
-            <h3>2 · Recherche & Beobachtung</h3>
-            <ul>
-              <li>Konkrete Orte, Situationen, Stimmen und Details tragen die Aussage.</li>
-              <li>Interviews liefern Beobachtungen, Beispiele und Gegensätze.</li>
-              <li>Fakten werden verständlich eingeordnet und nicht einfach behauptet.</li>
-            </ul>
-          </article>
-          <article>
-            <h3>3 · Bild & Ton</h3>
-            <ul>
-              <li>Jede Einstellung hat eine Aufgabe: Ort zeigen, Handlung zeigen, Reaktion zeigen.</li>
-              <li>Ton ist verständlich; Atmo und Musik überdecken keine Aussagen.</li>
-              <li>Es gibt Variation: Totale, Nähe, Details, Bewegung, ruhige Beobachtung.</li>
-            </ul>
-          </article>
-          <article>
-            <h3>4 · Dramaturgie & Schnitt</h3>
-            <ul>
-              <li>Der Einstieg erzeugt eine Frage oder Irritation.</li>
-              <li>Szenen stehen nicht zufällig nebeneinander, sondern bauen aufeinander auf.</li>
-              <li>Der Schluss beantwortet nicht alles, aber setzt einen erkennbaren Gedanken.</li>
-            </ul>
+            <h3>Fach Kommunikation · 30 Punkte</h3>
+            <table>
+              <thead><tr><th>Bereich</th><th>Kriterien</th><th>Punkte</th></tr></thead>
+              <tbody>
+                <tr><td>Bildgestaltung</td><td>bewusste Kameraführung; abwechslungsreiche Einstellungen; passende Bildsprache</td><td>0-6</td></tr>
+                <tr><td>Ton & Verständlichkeit</td><td>verständlicher Ton; sinnvoll eingesetzte Musik und Geräusche</td><td>0-6</td></tr>
+                <tr><td>Schnitt & Technik</td><td>sauberer Schnitt; Rhythmus; technische Sorgfalt</td><td>0-6</td></tr>
+                <tr><td>Kreativität & Wirkung</td><td>gestalterische Eigenständigkeit; Atmosphäre; kreative Umsetzung</td><td>0-6</td></tr>
+                <tr><td>Arbeitsprozess & Zusammenarbeit</td><td>Planung; Rollenverteilung; konstruktive Zusammenarbeit</td><td>0-6</td></tr>
+              </tbody>
+            </table>
           </article>
         </div>
       </section>

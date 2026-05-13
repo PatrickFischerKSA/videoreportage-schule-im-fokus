@@ -49,3 +49,32 @@ filterButtons.forEach((button) => {
     });
   });
 });
+
+const mp4Upload = document.querySelector("#mp4-upload");
+const uploadPreview = document.querySelector("#upload-preview");
+const uploadPlaceholder = document.querySelector("#upload-placeholder");
+const uploadMeta = document.querySelector("#upload-meta");
+let uploadObjectUrl = "";
+
+function formatBytes(bytes = 0) {
+  if (!bytes) return "0 MB";
+  return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
+}
+
+mp4Upload?.addEventListener("change", () => {
+  const file = mp4Upload.files?.[0];
+  if (!file || !uploadPreview || !uploadMeta) return;
+
+  if (uploadObjectUrl) URL.revokeObjectURL(uploadObjectUrl);
+  uploadObjectUrl = URL.createObjectURL(file);
+  uploadPreview.src = uploadObjectUrl;
+  uploadPreview.hidden = false;
+  uploadPlaceholder.hidden = true;
+
+  const isMp4 = file.type === "video/mp4" || file.name.toLowerCase().endsWith(".mp4");
+  uploadMeta.innerHTML = `
+    <div><dt>Datei</dt><dd>${file.name}</dd></div>
+    <div><dt>Typ</dt><dd>${isMp4 ? "MP4 erkannt" : file.type || "unbekannt"}</dd></div>
+    <div><dt>Größe</dt><dd>${formatBytes(file.size)}</dd></div>
+  `;
+});
