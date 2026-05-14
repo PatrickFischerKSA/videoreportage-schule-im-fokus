@@ -704,7 +704,8 @@ h3 {
   color: var(--muted);
 }
 
-.analysis-button {
+.analysis-button,
+.transcript-button {
   display: inline-flex;
   min-height: 42px;
   align-items: center;
@@ -723,6 +724,12 @@ h3 {
 .analysis-button:disabled {
   cursor: not-allowed;
   opacity: 0.5;
+}
+
+.transcript-button {
+  border-color: var(--line);
+  background: rgba(255, 255, 255, 0.18);
+  color: var(--ink);
 }
 
 .analysis-results {
@@ -789,6 +796,22 @@ h3 {
   margin: 0 0 8px;
   color: var(--muted);
   font-size: 0.94rem;
+}
+
+.suspicion-card blockquote {
+  margin: 10px 0;
+  border-left: 3px solid var(--blue);
+  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.18);
+  color: var(--ink);
+}
+
+.suspicion-card blockquote strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--blue);
+  font-size: 0.78rem;
+  text-transform: uppercase;
 }
 
 .suspicion-card ul {

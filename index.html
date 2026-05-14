@@ -151,6 +151,9 @@
                 Die Analyse sucht technische Verdachtsstellen und erzeugt daraus einen Prüfbericht
                 mit anspringbaren Zeitcodes für Achsensprung, Ton-Bild-Schere, Licht, Schnitt und Kamera.
               </p>
+              <label class="transcript-button" for="transcript-upload">Transkript ergänzen (.srt, .vtt, .txt)</label>
+              <input id="transcript-upload" class="visually-hidden" type="file" accept=".srt,.vtt,.txt,text/plain,text/vtt">
+              <p id="transcript-status" class="review-summary">Optional: Transkript mit Zeitcodes hochladen.</p>
               <button id="run-analysis" class="analysis-button" type="button" disabled>Technische Analyse starten</button>
               <p id="analysis-status" class="review-summary">Noch kein Video ausgewählt.</p>
               <div id="analysis-results" class="analysis-results" aria-live="polite"></div>

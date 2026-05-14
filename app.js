@@ -58,9 +58,15 @@ const autoChecks = document.querySelector("#auto-checks");
 const runAnalysis = document.querySelector("#run-analysis");
 const analysisStatus = document.querySelector("#analysis-status");
 const analysisResults = document.querySelector("#analysis-results");
+const transcriptUpload = document.querySelector("#transcript-upload");
+const transcriptStatus = document.querySelector("#transcript-status");
 let uploadObjectUrl = "";
 let selectedFile = null;
 let selectedIsMp4 = false;
+let transcriptCues = [];
+let transcriptName = "";
+let lastFrameData = null;
+let lastAudioData = null;
 
 function formatBytes(bytes = 0) {
   if (!bytes) return "0 MB";
@@ -122,12 +128,19 @@ function suspicionCard(item) {
   const timeButton = item.time === null ? "" : `
     <button type="button" data-jump="${item.time}">${formatTime(item.time)} öffnen</button>
   `;
+  const transcriptBlock = item.transcript ? `
+    <blockquote>
+      <strong>Transkript ${item.transcript.timeLabel}</strong>
+      ${item.transcript.text}
+    </blockquote>
+  ` : "";
   return `
     <article class="suspicion-card ${item.level}">
       <div>
         <span>${item.level === "high" ? "hoch" : "mittel"}</span>
         <h4>${item.title}</h4>
         <p>${item.reason}</p>
+        ${transcriptBlock}
         <ul>
           ${item.tasks.map((task) => `<li>${task}</li>`).join("")}
         </ul>
@@ -135,6 +148,86 @@ function suspicionCard(item) {
       ${timeButton}
     </article>
   `;
+}
+
+function parseTimestamp(value = "") {
+  const match = value.trim().match(/(?:(\d+):)?(\d{1,2}):(\d{2})[,.](\d{1,3})/);
+  if (!match) return null;
+  const hours = Number(match[1] || 0);
+  const minutes = Number(match[2] || 0);
+  const seconds = Number(match[3] || 0);
+  const millis = Number(match[4].padEnd(3, "0"));
+  return hours * 3600 + minutes * 60 + seconds + millis / 1000;
+}
+
+function parseTranscript(text, name) {
+  const normalized = text.replace(/\r/g, "").replace(/^WEBVTT.*?\n\n/s, "");
+  const blocks = normalized.split(/\n{2,}/);
+  const cues = [];
+
+  blocks.forEach((block) => {
+    const lines = block.split("\n").map((line) => line.trim()).filter(Boolean);
+    const timeIndex = lines.findIndex((line) => line.includes("-->"));
+    if (timeIndex === -1) return;
+
+    const [startRaw, endRaw] = lines[timeIndex].split("-->").map((part) => part.trim().split(/\s+/)[0]);
+    const start = parseTimestamp(startRaw);
+    const end = parseTimestamp(endRaw);
+    const cueText = lines.slice(timeIndex + 1).join(" ").replace(/<[^>]+>/g, "").trim();
+    if (start !== null && end !== null && cueText) cues.push({ start, end, text: cueText });
+  });
+
+  if (cues.length) return cues;
+
+  const plain = normalized.replace(/\n{2,}/g, "\n").trim();
+  return plain ? [{ start: null, end: null, text: plain, name }] : [];
+}
+
+function cueForTime(time) {
+  if (!Number.isFinite(time) || !transcriptCues.length) return null;
+  const timedCues = transcriptCues.filter((cue) => cue.start !== null);
+  if (!timedCues.length) return null;
+
+  const direct = timedCues.find((cue) => time >= cue.start - 1 && time <= cue.end + 1);
+  if (direct) return { ...direct, distance: 0 };
+
+  const nearest = timedCues
+    .map((cue) => ({ ...cue, distance: Math.min(Math.abs(cue.start - time), Math.abs(cue.end - time)) }))
+    .sort((a, b) => a.distance - b.distance)[0];
+  return nearest && nearest.distance <= 8 ? nearest : null;
+}
+
+function transcriptContext(time) {
+  const cue = cueForTime(time);
+  if (!cue) return null;
+  return {
+    text: escapeHtml(cue.text),
+    plainText: cue.text,
+    timeLabel: cue.distance ? `nahe ${formatTime(cue.start)}` : `${formatTime(cue.start)}-${formatTime(cue.end)}`
+  };
+}
+
+function transcriptTasks(context, kind) {
+  if (!context) return [];
+  const text = context.plainText.toLowerCase();
+  const tasks = [
+    "Transkriptzeile mit dem Bild vergleichen: Sieht man, worüber gesprochen wird?"
+  ];
+
+  if (kind === "silence") {
+    tasks.push("Wenn hier Text steht, aber technisch Stille gemessen wird: Tonspur oder Untertitel/Transkript synchronisieren.");
+  }
+  if (kind === "cut") {
+    tasks.push("Bei diesem Schnitt prüfen: Wechselt das Bild passend zur Aussage oder entsteht ein Bedeutungsbruch?");
+  }
+  if (/(laut|studie|statistik|quelle|expert|forscher|bericht|zahlen|instagram|tiktok|youtube|ki|künstliche intelligenz)/i.test(text)) {
+    tasks.push("Quellencheck: Behauptung, Statistik oder Plattformbezug im Film sichtbar oder im Abspann belegt?");
+  }
+  if (/(ich|wir|mich|uns|meine|unser|sagt|erzählt|findet|fühlt)/i.test(text)) {
+    tasks.push("O-Ton/Off prüfen: Passt die sprechende Perspektive zum sichtbaren Bild?");
+  }
+
+  return tasks;
 }
 
 function renderAutoChecks(file, isMp4) {
@@ -364,90 +457,128 @@ function buildSuspicionReport(frameData, audioData) {
   const items = [];
 
   frameData.cutCandidates.forEach((time) => {
+    const context = transcriptContext(time);
     items.push({
       time,
       level: "high",
       title: "Möglicher Anschlussfehler oder Achsensprung",
       reason: "Die Frame-Differenz ist an dieser Stelle sehr hoch. Das kann ein normaler Schnitt sein, aber auch ein Sprung in Blickrichtung, Bewegungsrichtung oder Raumachse.",
+      transcript: context,
       tasks: [
         "Vor und nach der Zeitmarke je drei Sekunden anschauen.",
         "Prüfen: Blickt oder bewegt sich die Person nach dem Schnitt logisch weiter?",
-        "Falls die Raumachse kippt: Zwischenshot, Establishing Shot oder anderen Anschluss verwenden."
+        "Falls die Raumachse kippt: Zwischenshot, Establishing Shot oder anderen Anschluss verwenden.",
+        ...transcriptTasks(context, "cut")
       ]
     });
   });
 
   frameData.motionWarnings.forEach((time) => {
+    const context = transcriptContext(time);
     items.push({
       time,
       level: "medium",
       title: "Starker Bewegungswechsel oder Umfilmen",
       reason: "Das Bild verändert sich stark, ohne dass es als harter Schnitt erkannt wurde. Das kann ein Schwenk, Umfilmen einer Person oder Verwacklung sein.",
+      transcript: context,
       tasks: [
         "Prüfen: Ist die Kamerabewegung motiviert oder nur unruhig?",
         "Beim Umfilmen: Bleibt die Person räumlich verständlich?",
-        "Falls es wackelt: ruhigere Einstellung oder kürzeren Ausschnitt wählen."
+        "Falls es wackelt: ruhigere Einstellung oder kürzeren Ausschnitt wählen.",
+        ...transcriptTasks(context, "motion")
       ]
     });
   });
 
   if (audioData.supported) {
     audioData.silenceTimes.slice(0, 8).forEach((time) => {
+      const context = transcriptContext(time);
       items.push({
         time,
-        level: "medium",
+        level: context ? "high" : "medium",
         title: "Auffällige Stille oder sehr leiser Ton",
-        reason: "Die Tonspur ist hier technisch sehr leise. Das kann eine bewusste Pause sein, wirkt aber oft wie ein Tonloch.",
+        reason: context ? "Die Tonspur ist hier sehr leise, im Transkript steht aber Text in der Nähe. Das ist ein starker Hinweis auf Synchronisations- oder Tonproblem." : "Die Tonspur ist hier technisch sehr leise. Das kann eine bewusste Pause sein, wirkt aber oft wie ein Tonloch.",
+        transcript: context,
         tasks: [
           "Prüfen: Gibt es hier Bildinhalt, der Ton erwarten lässt?",
           "Bei Off-Kommentar: Passt die Stille zur Bildaussage oder entsteht Ton-Bild-Schere?",
-          "Falls nötig: Atmo, O-Ton oder Off sauber ergänzen."
+          "Falls nötig: Atmo, O-Ton oder Off sauber ergänzen.",
+          ...transcriptTasks(context, "silence")
         ]
       });
     });
 
     audioData.clippingTimes.slice(0, 8).forEach((time) => {
+      const context = transcriptContext(time);
       items.push({
         time,
         level: "high",
         title: "Mögliche Ton-Übersteuerung",
         reason: "Die Tonspur erreicht hier sehr hohe Pegel. Stimmen oder Geräusche können verzerren.",
+        transcript: context,
         tasks: [
           "Prüfen: Klingt die Stimme kratzig, zu laut oder unangenehm?",
           "Falls Musik oder Geräusch dominiert: Ist das inhaltlich gewollt?",
-          "Pegel senken oder bessere Tonstelle verwenden."
+          "Pegel senken oder bessere Tonstelle verwenden.",
+          ...transcriptTasks(context, "audio")
         ]
       });
     });
   }
 
   [...frameData.darkFrames, ...frameData.brightFrames].forEach((time) => {
+    const context = transcriptContext(time);
     items.push({
       time,
       level: "medium",
       title: "Belichtungswarnung",
       reason: "Die Stichprobe ist sehr dunkel oder sehr hell. Gesichter, Orte oder Handlungen könnten schlecht erkennbar sein.",
+      transcript: context,
       tasks: [
         "Prüfen: Erkennt man die wichtigste Person oder Handlung sofort?",
         "Gegenlicht, Fenster oder dunkle Ecken kontrollieren.",
-        "Wenn möglich: hellere Einstellung, andere Blickrichtung oder goldene Stunde nutzen."
+        "Wenn möglich: hellere Einstellung, andere Blickrichtung oder goldene Stunde nutzen.",
+        ...transcriptTasks(context, "image")
       ]
     });
   });
 
   frameData.lowContrastFrames.forEach((time) => {
+    const context = transcriptContext(time);
     items.push({
       time,
       level: "medium",
       title: "Schwache Bildkomposition möglich",
       reason: "Das Bild ist technisch kontrastarm. Das kann auf leere Flächen, flaches Licht oder zu wenig Vordergrund/Tiefe hinweisen.",
+      transcript: context,
       tasks: [
         "Prüfen: Ist der Bildraum sinnvoll gefüllt?",
         "Gibt es Vordergrund, Tiefe oder klare Blickführung?",
-        "Motiv näher holen, Rahmen füllen oder Objekte/Personen bewusster arrangieren."
+        "Motiv näher holen, Rahmen füllen oder Objekte/Personen bewusster arrangieren.",
+        ...transcriptTasks(context, "composition")
       ]
     });
   });
+
+  const transcriptSourceWords = /(laut|studie|statistik|quelle|expert|forscher|bericht|zahlen|instagram|tiktok|youtube|ki|künstliche intelligenz)/i;
+  transcriptCues
+    .filter((cue) => cue.start !== null && transcriptSourceWords.test(cue.text))
+    .slice(0, 6)
+    .forEach((cue) => {
+      const context = transcriptContext(cue.start);
+      items.push({
+        time: cue.start,
+        level: "medium",
+        title: "Transkript verlangt Quellen- oder Bildabgleich",
+        reason: "Das Transkript enthält eine Behauptung, Statistik, Plattform oder KI-Bezug. Solche Stellen brauchen im Film Quellenklarheit und ein passendes Bild.",
+        transcript: context,
+        tasks: [
+          "Prüfen: Ist die Quelle im Bild, Off oder Abspann klar ausgewiesen?",
+          "Prüfen: Zeigt das Bild Material, das zur Behauptung passt, oder entsteht Ton-Bild-Schere?",
+          "Wenn nur Meinung hörbar ist: Als Meinung markieren oder belastbare Quelle ergänzen."
+        ]
+      });
+    });
 
   if (frameData.tiltMeasured >= 3 && frameData.tiltAverage > 5) {
     items.push({
@@ -510,7 +641,7 @@ function renderAnalysis(frameData, audioData) {
       "Tonpegel, Stille und Übersteuerung",
       audioStatus,
       audioData.supported ? `Ø ${audioData.averageDb.toFixed(1)} dB · Stille ${(audioData.silenceRatio * 100).toFixed(0)}% · Clipping ${(audioData.clippingRatio * 100).toFixed(2)}%` : "nicht messbar",
-      audioData.supported ? "Web Audio misst Lautheit, längere Stille und Übersteuerungen. Eine Ton-Bild-Schere im Sinn von falschem Inhalt braucht Transkript/Objekterkennung." : audioData.reason
+      audioData.supported ? `Web Audio misst Lautheit, längere Stille und Übersteuerungen.${transcriptCues.length ? " Der Transkriptvergleich markiert zusätzlich Stellen, an denen Text und Ton/Bild besonders genau abgeglichen werden müssen." : " Mit zusätzlichem SRT/VTT-Transkript werden Ton-Bild-Scheren konkreter prüfbar."}` : audioData.reason
     ),
     resultCard(
       "Licht und Belichtung",
@@ -560,6 +691,8 @@ async function runTechnicalAnalysis() {
       analyzeFrames(selectedFile),
       analyzeAudio(selectedFile)
     ]);
+    lastFrameData = frameData;
+    lastAudioData = audioData;
     renderAnalysis(frameData, audioData);
     analysisStatus.textContent = "Technische Analyse abgeschlossen. Zeitmarken springen direkt zur verdächtigen Stelle im Video.";
   } catch (error) {
@@ -582,6 +715,8 @@ mp4Upload?.addEventListener("change", () => {
   const isMp4 = file.type === "video/mp4" || file.name.toLowerCase().endsWith(".mp4");
   selectedFile = file;
   selectedIsMp4 = isMp4;
+  lastFrameData = null;
+  lastAudioData = null;
   uploadMeta.innerHTML = `
     <div><dt>Datei</dt><dd>${escapeHtml(file.name)}</dd></div>
     <div><dt>Typ</dt><dd>${isMp4 ? "MP4 erkannt" : escapeHtml(file.type || "unbekannt")}</dd></div>
@@ -595,6 +730,30 @@ mp4Upload?.addEventListener("change", () => {
     renderAutoChecks(file, isMp4);
   } else {
     uploadPreview.addEventListener("loadedmetadata", () => renderAutoChecks(file, isMp4), { once: true });
+  }
+});
+
+transcriptUpload?.addEventListener("change", async () => {
+  const file = transcriptUpload.files?.[0];
+  if (!file || !transcriptStatus) return;
+
+  const text = await file.text();
+  transcriptCues = parseTranscript(text, file.name);
+  transcriptName = file.name;
+  const timed = transcriptCues.filter((cue) => cue.start !== null).length;
+
+  if (!transcriptCues.length) {
+    transcriptStatus.textContent = "Transkript konnte nicht gelesen werden.";
+    return;
+  }
+
+  transcriptStatus.textContent = timed
+    ? `${transcriptName}: ${timed} Zeitcode-Stellen erkannt und für den Vergleich bereit.`
+    : `${transcriptName}: Text erkannt, aber ohne Zeitcodes nur eingeschränkt vergleichbar.`;
+
+  if (lastFrameData && lastAudioData) {
+    renderAnalysis(lastFrameData, lastAudioData);
+    analysisStatus.textContent = "Verdachtsbericht mit Transkript-Vergleich aktualisiert.";
   }
 });
 
