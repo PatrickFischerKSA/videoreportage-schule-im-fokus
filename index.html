@@ -110,98 +110,6 @@
         </div>
       </section>
 
-      <section id="abgabe" class="section upload-section" aria-labelledby="abgabe-title">
-        <div class="section-heading split">
-          <div>
-            <p class="eyebrow">Abgabe</p>
-            <h2 id="abgabe-title">MP4-Datei lokal prüfen</h2>
-            <p>
-              Wählt eure fertige Videoreportage als MP4-Datei aus. Die Datei wird nur im Browser
-              angezeigt und nicht auf GitHub hochgeladen. Prüft vor der definitiven Abgabe Länge,
-              Ton, Bild, Titel, Abspann und Quellenangaben.
-            </p>
-          </div>
-          <label class="upload-button" for="mp4-upload">MP4 auswählen</label>
-          <input id="mp4-upload" class="visually-hidden" type="file" accept="video/mp4,.mp4">
-        </div>
-        <div class="upload-grid">
-          <div class="upload-preview">
-            <video id="upload-preview" controls hidden></video>
-            <div id="upload-placeholder" class="upload-placeholder">
-              <strong>Noch keine MP4 ausgewählt</strong>
-              <span>Nach dem Auswählen erscheint hier eine lokale Vorschau.</span>
-            </div>
-          </div>
-          <aside class="upload-check">
-            <h3>Aktive Abgabeprüfung</h3>
-            <dl id="upload-meta">
-              <div><dt>Datei</dt><dd>offen</dd></div>
-              <div><dt>Typ</dt><dd>MP4 erwartet</dd></div>
-              <div><dt>Größe</dt><dd>offen</dd></div>
-            </dl>
-            <div class="check-panel">
-              <strong>Automatische Checks</strong>
-              <div id="auto-checks" class="auto-checks" aria-live="polite">
-                <p>MP4 auswählen, dann werden Laufzeit, Format und Auflösung ausgelesen.</p>
-              </div>
-            </div>
-            <div class="check-panel">
-              <strong>Technische Analyse des geladenen Videos</strong>
-              <p class="review-hint">
-                Die Analyse sucht technische Verdachtsstellen und erzeugt daraus einen Prüfbericht
-                mit anspringbaren Zeitcodes für Achsensprung, Ton-Bild-Schere, Licht, Schnitt und Kamera.
-              </p>
-              <label class="transcript-button" for="transcript-upload">Transkript ergänzen (.srt, .vtt, .txt)</label>
-              <input id="transcript-upload" class="visually-hidden" type="file" accept=".srt,.vtt,.txt,text/plain,text/vtt">
-              <p id="transcript-status" class="review-summary">Optional: Transkript mit Zeitcodes hochladen.</p>
-              <button id="run-analysis" class="analysis-button" type="button" disabled>Technische Analyse starten</button>
-              <p id="analysis-status" class="review-summary">Noch kein Video ausgewählt.</p>
-              <div id="analysis-results" class="analysis-results" aria-live="polite"></div>
-              <div class="capcut-panel">
-                <div>
-                  <p class="tag">CapCut-Free-Gegencheck</p>
-                  <h4>Verdachtsstellen in CapCut prüfen und verbessern</h4>
-                  <p>
-                    CapCut kann je nach Gerät, Web/Desktop-Version und Account unterschiedliche Gratis- und Pro-Grenzen haben.
-                    Nutzt nur Werkzeuge ohne Pro-Markierung und prüft jede automatische Korrektur am Originalbild.
-                  </p>
-                </div>
-                <div class="capcut-actions">
-                  <a class="button primary" href="https://www.capcut.com/tools/online-video-editor/">CapCut Web öffnen</a>
-                  <a class="button secondary" href="https://www.capcut.com/tools/remove-background-noise-from-audio">Noise-Tool öffnen</a>
-                </div>
-                <div class="capcut-grid">
-                  <article>
-                    <strong>Ton-Bild-Schere</strong>
-                    <p>Auto Captions oder importierte SRT mit dem Bild vergleichen: Sagt der Text etwas, das das Bild nicht trägt?</p>
-                  </article>
-                  <article>
-                    <strong>Tonverständlichkeit</strong>
-                    <p>Noise Reduction, Voice Enhancement oder Lautstärke prüfen; danach die markierten Tonloch-/Clipping-Stellen erneut anhören.</p>
-                  </article>
-                  <article>
-                    <strong>Achsensprung & Anschluss</strong>
-                    <p>Bei Zeitcodes aus dem Verdachtsbericht Schnittstelle öffnen, Vorher/Nachher vergleichen und mit Zwischenshot, Recut oder B-Roll retten.</p>
-                  </article>
-                  <article>
-                    <strong>Kamera & Stabilität</strong>
-                    <p>Stabilisierung nur auf echte Verwacklung anwenden; nachher prüfen, ob Bildränder, Schwenks und Bewegung noch natürlich wirken.</p>
-                  </article>
-                  <article>
-                    <strong>Licht & Bildkomposition</strong>
-                    <p>Adjust/Enhance für zu dunkle oder helle Stellen testen; nicht glattbügeln, sondern Gesichter, Tiefe und Rahmenfüllung verbessern.</p>
-                  </article>
-                  <article>
-                    <strong>Quellen & Abspann</strong>
-                    <p>Transkriptstellen mit Statistik, KI, TikTok, Instagram oder Studien als Texttafel, Bauchbinde oder Abspannquelle sichtbar machen.</p>
-                  </article>
-                </div>
-              </div>
-            </div>
-          </aside>
-        </div>
-      </section>
-
       <section id="werkstatt" class="section workspace" aria-labelledby="werkstatt-title">
         <div class="section-heading">
           <p class="eyebrow">Werkstatt</p>
@@ -422,6 +330,98 @@
               </tbody>
             </table>
           </article>
+        </div>
+      </section>
+
+      <section id="abgabe" class="section upload-section" aria-labelledby="abgabe-title">
+        <div class="section-heading split">
+          <div>
+            <p class="eyebrow">Abgabe</p>
+            <h2 id="abgabe-title">MP4-Datei lokal prüfen</h2>
+            <p>
+              Wählt eure fertige Videoreportage als MP4-Datei aus. Die Datei wird nur im Browser
+              angezeigt und nicht auf GitHub hochgeladen. Prüft vor der definitiven Abgabe Länge,
+              Ton, Bild, Titel, Abspann und Quellenangaben.
+            </p>
+          </div>
+          <label class="upload-button" for="mp4-upload">MP4 auswählen</label>
+          <input id="mp4-upload" class="visually-hidden" type="file" accept="video/mp4,.mp4">
+        </div>
+        <div class="upload-grid">
+          <div class="upload-preview">
+            <video id="upload-preview" controls hidden></video>
+            <div id="upload-placeholder" class="upload-placeholder">
+              <strong>Noch keine MP4 ausgewählt</strong>
+              <span>Nach dem Auswählen erscheint hier eine lokale Vorschau.</span>
+            </div>
+          </div>
+          <aside class="upload-check">
+            <h3>Aktive Abgabeprüfung</h3>
+            <dl id="upload-meta">
+              <div><dt>Datei</dt><dd>offen</dd></div>
+              <div><dt>Typ</dt><dd>MP4 erwartet</dd></div>
+              <div><dt>Größe</dt><dd>offen</dd></div>
+            </dl>
+            <div class="check-panel">
+              <strong>Automatische Checks</strong>
+              <div id="auto-checks" class="auto-checks" aria-live="polite">
+                <p>MP4 auswählen, dann werden Laufzeit, Format und Auflösung ausgelesen.</p>
+              </div>
+            </div>
+            <div class="check-panel">
+              <strong>Technische Analyse des geladenen Videos</strong>
+              <p class="review-hint">
+                Die Analyse sucht technische Verdachtsstellen und erzeugt daraus einen Prüfbericht
+                mit anspringbaren Zeitcodes für Achsensprung, Ton-Bild-Schere, Licht, Schnitt und Kamera.
+              </p>
+              <label class="transcript-button" for="transcript-upload">Transkript ergänzen (.srt, .vtt, .txt)</label>
+              <input id="transcript-upload" class="visually-hidden" type="file" accept=".srt,.vtt,.txt,text/plain,text/vtt">
+              <p id="transcript-status" class="review-summary">Optional: Transkript mit Zeitcodes hochladen.</p>
+              <button id="run-analysis" class="analysis-button" type="button" disabled>Technische Analyse starten</button>
+              <p id="analysis-status" class="review-summary">Noch kein Video ausgewählt.</p>
+              <div id="analysis-results" class="analysis-results" aria-live="polite"></div>
+              <div class="capcut-panel">
+                <div>
+                  <p class="tag">CapCut-Free-Gegencheck</p>
+                  <h4>Verdachtsstellen in CapCut prüfen und verbessern</h4>
+                  <p>
+                    CapCut kann je nach Gerät, Web/Desktop-Version und Account unterschiedliche Gratis- und Pro-Grenzen haben.
+                    Nutzt nur Werkzeuge ohne Pro-Markierung und prüft jede automatische Korrektur am Originalbild.
+                  </p>
+                </div>
+                <div class="capcut-actions">
+                  <a class="button primary" href="https://www.capcut.com/tools/online-video-editor/">CapCut Web öffnen</a>
+                  <a class="button secondary" href="https://www.capcut.com/tools/remove-background-noise-from-audio">Noise-Tool öffnen</a>
+                </div>
+                <div class="capcut-grid">
+                  <article>
+                    <strong>Ton-Bild-Schere</strong>
+                    <p>Auto Captions oder importierte SRT mit dem Bild vergleichen: Sagt der Text etwas, das das Bild nicht trägt?</p>
+                  </article>
+                  <article>
+                    <strong>Tonverständlichkeit</strong>
+                    <p>Noise Reduction, Voice Enhancement oder Lautstärke prüfen; danach die markierten Tonloch-/Clipping-Stellen erneut anhören.</p>
+                  </article>
+                  <article>
+                    <strong>Achsensprung & Anschluss</strong>
+                    <p>Bei Zeitcodes aus dem Verdachtsbericht Schnittstelle öffnen, Vorher/Nachher vergleichen und mit Zwischenshot, Recut oder B-Roll retten.</p>
+                  </article>
+                  <article>
+                    <strong>Kamera & Stabilität</strong>
+                    <p>Stabilisierung nur auf echte Verwacklung anwenden; nachher prüfen, ob Bildränder, Schwenks und Bewegung noch natürlich wirken.</p>
+                  </article>
+                  <article>
+                    <strong>Licht & Bildkomposition</strong>
+                    <p>Adjust/Enhance für zu dunkle oder helle Stellen testen; nicht glattbügeln, sondern Gesichter, Tiefe und Rahmenfüllung verbessern.</p>
+                  </article>
+                  <article>
+                    <strong>Quellen & Abspann</strong>
+                    <p>Transkriptstellen mit Statistik, KI, TikTok, Instagram oder Studien als Texttafel, Bauchbinde oder Abspannquelle sichtbar machen.</p>
+                  </article>
+                </div>
+              </div>
+            </div>
+          </aside>
         </div>
       </section>
 
