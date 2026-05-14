@@ -1,14 +1,17 @@
 :root {
   --ink: #17202a;
   --muted: #5d6978;
-  --line: #d9e1ea;
+  --line: rgba(239, 246, 250, 0.62);
   --paper: #fbfaf6;
   --white: #ffffff;
   --blue: #1b67b1;
   --red: #c84a3d;
   --green: #2f7d64;
   --gold: #e4b84f;
-  --shadow: 0 20px 60px rgba(23, 32, 42, 0.14);
+  --glass: rgba(255, 255, 255, 0.16);
+  --glass-soft: rgba(255, 255, 255, 0.08);
+  --glass-strong: rgba(255, 255, 255, 0.24);
+  --shadow: 0 20px 60px rgba(23, 32, 42, 0.11);
 }
 
 * {
@@ -22,9 +25,33 @@ html {
 body {
   margin: 0;
   color: var(--ink);
-  background: var(--paper);
+  background: #111820;
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   line-height: 1.55;
+}
+
+.background-video,
+.background-vignette {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+.background-video {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -3;
+  opacity: 0.52;
+  filter: saturate(1.08) contrast(1.02);
+}
+
+.background-vignette {
+  z-index: -2;
+  background:
+    linear-gradient(90deg, rgba(251, 250, 246, 0.8), rgba(251, 250, 246, 0.34) 42%, rgba(251, 250, 246, 0.62)),
+    radial-gradient(circle at 80% 10%, rgba(228, 184, 79, 0.22), transparent 28%),
+    radial-gradient(circle at 18% 18%, rgba(27, 103, 177, 0.18), transparent 32%);
 }
 
 a {
@@ -40,9 +67,9 @@ a {
   justify-content: space-between;
   gap: 24px;
   padding: 14px clamp(18px, 4vw, 56px);
-  background: rgba(251, 250, 246, 0.94);
-  border-bottom: 1px solid rgba(217, 225, 234, 0.9);
-  backdrop-filter: blur(16px);
+  background: rgba(255, 255, 255, 0.18);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(18px) saturate(1.12);
 }
 
 .brand {
@@ -91,6 +118,12 @@ nav a:hover {
 
 .hero-copy {
   max-width: 760px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--glass), var(--glass-soft));
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(18px) saturate(1.08);
 }
 
 .eyebrow {
@@ -149,7 +182,7 @@ h3 {
   border: 1px solid var(--line);
   border-radius: 7px;
   padding: 10px 16px;
-  background: var(--white);
+  background: rgba(255, 255, 255, 0.2);
   color: var(--ink);
   font: inherit;
   font-weight: 750;
@@ -190,12 +223,11 @@ h3 {
 .screen {
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(23, 32, 42, 0.12);
+  border: 1px solid var(--line);
   border-radius: 8px;
-  background:
-    linear-gradient(140deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0)),
-    linear-gradient(135deg, #cfe2f3, #f5d587 48%, #d97968);
+  background: linear-gradient(140deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.06));
   box-shadow: var(--shadow);
+  backdrop-filter: blur(12px) saturate(1.08);
 }
 
 .screen::before {
@@ -211,21 +243,15 @@ h3 {
 
 .screen.tall {
   grid-row: 2 / 4;
-  background:
-    linear-gradient(rgba(23, 32, 42, 0.1), rgba(23, 32, 42, 0.28)),
-    linear-gradient(160deg, #8fc7b6, #f7e7a4);
+  background: linear-gradient(160deg, rgba(143, 199, 182, 0.22), rgba(247, 231, 164, 0.08));
 }
 
 .screen.small {
-  background:
-    linear-gradient(rgba(23, 32, 42, 0.08), rgba(23, 32, 42, 0.2)),
-    linear-gradient(160deg, #f2a6a0, #f6d867);
+  background: linear-gradient(160deg, rgba(242, 166, 160, 0.2), rgba(246, 216, 103, 0.1));
 }
 
 .screen.wide {
-  background:
-    linear-gradient(rgba(23, 32, 42, 0.14), rgba(23, 32, 42, 0.36)),
-    linear-gradient(160deg, #7fb1de, #8fc7b6);
+  background: linear-gradient(160deg, rgba(127, 177, 222, 0.22), rgba(143, 199, 182, 0.1));
 }
 
 .screen span:not(.rec-dot),
@@ -277,8 +303,9 @@ h3 {
 
 .intro-band {
   padding: 20px clamp(18px, 6vw, 90px);
-  background: var(--ink);
+  background: rgba(17, 24, 32, 0.34);
   color: var(--white);
+  backdrop-filter: blur(16px) saturate(1.06);
 }
 
 .intro-band p {
@@ -345,7 +372,9 @@ h3 {
 .checklist-grid article {
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: var(--white);
+  background: linear-gradient(135deg, var(--glass), var(--glass-soft));
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(16px) saturate(1.08);
 }
 
 .requirements article {
@@ -382,7 +411,9 @@ h3 {
   place-items: center;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: var(--white);
+  background: linear-gradient(135deg, var(--glass), var(--glass-soft));
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(14px) saturate(1.08);
   font-weight: 800;
   text-align: center;
 }
@@ -391,7 +422,7 @@ h3 {
 .assessment,
 .upload-section,
 .publication {
-  background: #eef4f1;
+  background: transparent;
 }
 
 .timeline {
@@ -423,9 +454,11 @@ h3 {
   gap: 24px;
   margin-top: 18px;
   padding: 22px;
-  border: 1px solid #b9d6c9;
+  border: 1px solid var(--line);
   border-radius: 8px;
-  background: var(--white);
+  background: linear-gradient(135deg, var(--glass-strong), var(--glass-soft));
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(16px) saturate(1.08);
 }
 
 .topic-lab h3,
@@ -508,7 +541,7 @@ h3 {
 }
 
 .channel-card {
-  background: var(--ink);
+  background: rgba(17, 24, 32, 0.46);
   color: var(--white);
 }
 
@@ -575,8 +608,9 @@ h3 {
 .criteria-grid article {
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: var(--white);
-  box-shadow: 0 14px 36px rgba(23, 32, 42, 0.08);
+  background: linear-gradient(135deg, var(--glass-strong), var(--glass-soft));
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(16px) saturate(1.08);
 }
 
 .upload-preview {
@@ -650,7 +684,7 @@ h3 {
   height: 66px;
   place-items: center;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.72);
   font-weight: 850;
 }
 
@@ -679,8 +713,9 @@ h3 {
 .criteria-grid h3 {
   margin: 0;
   padding: 18px 20px;
-  background: var(--ink);
+  background: rgba(17, 24, 32, 0.42);
   color: var(--white);
+  backdrop-filter: blur(10px) saturate(1.06);
 }
 
 .criteria-grid table {
@@ -732,8 +767,9 @@ h3 {
   display: grid;
   grid-template-columns: minmax(0, 0.7fr) minmax(360px, 1.3fr);
   gap: clamp(28px, 6vw, 78px);
-  background: var(--ink);
+  background: rgba(17, 24, 32, 0.46);
   color: var(--white);
+  backdrop-filter: blur(18px) saturate(1.08);
 }
 
 .quality .eyebrow,
