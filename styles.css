@@ -731,6 +731,93 @@ h3 {
   margin-top: 12px;
 }
 
+.suspicion-report {
+  padding: 14px;
+  border: 1px solid rgba(178, 124, 38, 0.38);
+  border-radius: 8px;
+  background: rgba(178, 124, 38, 0.12);
+}
+
+.suspicion-report h4 {
+  margin: 0 0 6px;
+  color: var(--ink);
+}
+
+.suspicion-report > p {
+  margin: 0 0 12px;
+  color: var(--muted);
+}
+
+.suspicion-report > div {
+  display: grid;
+  gap: 10px;
+}
+
+.suspicion-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: start;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.suspicion-card span {
+  display: inline-flex;
+  min-height: 26px;
+  align-items: center;
+  border-radius: 999px;
+  padding: 3px 9px;
+  background: rgba(178, 124, 38, 0.22);
+  color: #6a4314;
+  font-size: 0.76rem;
+  font-weight: 850;
+}
+
+.suspicion-card.high span {
+  background: rgba(200, 74, 61, 0.2);
+  color: #7a2b22;
+}
+
+.suspicion-card h4 {
+  margin: 8px 0 4px;
+}
+
+.suspicion-card p {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: 0.94rem;
+}
+
+.suspicion-card ul {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--muted);
+}
+
+.suspicion-card li {
+  margin-bottom: 4px;
+}
+
+.suspicion-card button {
+  min-height: 38px;
+  border: 1px solid var(--blue);
+  border-radius: 7px;
+  padding: 8px 12px;
+  background: rgba(48, 100, 176, 0.16);
+  color: var(--ink);
+  font: inherit;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.suspicion-card button:hover {
+  background: var(--blue);
+  color: var(--white);
+}
+
 .analysis-card {
   display: grid;
   grid-template-columns: 86px minmax(0, 1fr);
@@ -944,6 +1031,11 @@ footer a {
     grid-row: auto;
     justify-content: flex-start;
     max-width: none;
+  }
+
+  .suspicion-card,
+  .analysis-card {
+    grid-template-columns: 1fr;
   }
 
   .pill-grid,

@@ -118,6 +118,25 @@ function resultCard(title, status, metric, detail, times = []) {
   `;
 }
 
+function suspicionCard(item) {
+  const timeButton = item.time === null ? "" : `
+    <button type="button" data-jump="${item.time}">${formatTime(item.time)} öffnen</button>
+  `;
+  return `
+    <article class="suspicion-card ${item.level}">
+      <div>
+        <span>${item.level === "high" ? "hoch" : "mittel"}</span>
+        <h4>${item.title}</h4>
+        <p>${item.reason}</p>
+        <ul>
+          ${item.tasks.map((task) => `<li>${task}</li>`).join("")}
+        </ul>
+      </div>
+      ${timeButton}
+    </article>
+  `;
+}
+
 function renderAutoChecks(file, isMp4) {
   if (!autoChecks || !uploadPreview) return;
 
@@ -299,19 +318,29 @@ async function analyzeAudio(file) {
     const channel = audioBuffer.getChannelData(0);
     const windowSize = Math.max(1024, Math.round(audioBuffer.sampleRate * 0.25));
     const rmsValues = [];
+    const silenceTimes = [];
+    const clippingTimes = [];
     let clipped = 0;
 
     for (let start = 0; start < channel.length; start += windowSize) {
       let sum = 0;
       let samples = 0;
+      let clippedInWindow = 0;
       for (let index = start; index < Math.min(start + windowSize, channel.length); index += 1) {
         const sample = channel[index];
         sum += sample * sample;
         samples += 1;
-        if (Math.abs(sample) > 0.98) clipped += 1;
+        if (Math.abs(sample) > 0.98) {
+          clipped += 1;
+          clippedInWindow += 1;
+        }
       }
       const rms = Math.sqrt(sum / Math.max(samples, 1));
-      rmsValues.push(20 * Math.log10(Math.max(rms, 0.00001)));
+      const db = 20 * Math.log10(Math.max(rms, 0.00001));
+      const time = start / audioBuffer.sampleRate;
+      rmsValues.push(db);
+      if (db < -45) silenceTimes.push(time);
+      if (clippedInWindow / Math.max(samples, 1) > 0.002) clippingTimes.push(time);
     }
 
     const audible = rmsValues.filter((value) => value > -45);
@@ -322,11 +351,121 @@ async function analyzeAudio(file) {
       averageDb: average(audible.length ? audible : rmsValues),
       peakDb: Math.max(...rmsValues),
       silenceRatio: rmsValues.filter((value) => value < -45).length / Math.max(rmsValues.length, 1),
-      clippingRatio: clipped / Math.max(channel.length, 1)
+      clippingRatio: clipped / Math.max(channel.length, 1),
+      silenceTimes,
+      clippingTimes
     };
   } catch (error) {
     return { supported: false, reason: "Tonspur konnte aus dieser MP4 im Browser nicht decodiert werden." };
   }
+}
+
+function buildSuspicionReport(frameData, audioData) {
+  const items = [];
+
+  frameData.cutCandidates.forEach((time) => {
+    items.push({
+      time,
+      level: "high",
+      title: "Möglicher Anschlussfehler oder Achsensprung",
+      reason: "Die Frame-Differenz ist an dieser Stelle sehr hoch. Das kann ein normaler Schnitt sein, aber auch ein Sprung in Blickrichtung, Bewegungsrichtung oder Raumachse.",
+      tasks: [
+        "Vor und nach der Zeitmarke je drei Sekunden anschauen.",
+        "Prüfen: Blickt oder bewegt sich die Person nach dem Schnitt logisch weiter?",
+        "Falls die Raumachse kippt: Zwischenshot, Establishing Shot oder anderen Anschluss verwenden."
+      ]
+    });
+  });
+
+  frameData.motionWarnings.forEach((time) => {
+    items.push({
+      time,
+      level: "medium",
+      title: "Starker Bewegungswechsel oder Umfilmen",
+      reason: "Das Bild verändert sich stark, ohne dass es als harter Schnitt erkannt wurde. Das kann ein Schwenk, Umfilmen einer Person oder Verwacklung sein.",
+      tasks: [
+        "Prüfen: Ist die Kamerabewegung motiviert oder nur unruhig?",
+        "Beim Umfilmen: Bleibt die Person räumlich verständlich?",
+        "Falls es wackelt: ruhigere Einstellung oder kürzeren Ausschnitt wählen."
+      ]
+    });
+  });
+
+  if (audioData.supported) {
+    audioData.silenceTimes.slice(0, 8).forEach((time) => {
+      items.push({
+        time,
+        level: "medium",
+        title: "Auffällige Stille oder sehr leiser Ton",
+        reason: "Die Tonspur ist hier technisch sehr leise. Das kann eine bewusste Pause sein, wirkt aber oft wie ein Tonloch.",
+        tasks: [
+          "Prüfen: Gibt es hier Bildinhalt, der Ton erwarten lässt?",
+          "Bei Off-Kommentar: Passt die Stille zur Bildaussage oder entsteht Ton-Bild-Schere?",
+          "Falls nötig: Atmo, O-Ton oder Off sauber ergänzen."
+        ]
+      });
+    });
+
+    audioData.clippingTimes.slice(0, 8).forEach((time) => {
+      items.push({
+        time,
+        level: "high",
+        title: "Mögliche Ton-Übersteuerung",
+        reason: "Die Tonspur erreicht hier sehr hohe Pegel. Stimmen oder Geräusche können verzerren.",
+        tasks: [
+          "Prüfen: Klingt die Stimme kratzig, zu laut oder unangenehm?",
+          "Falls Musik oder Geräusch dominiert: Ist das inhaltlich gewollt?",
+          "Pegel senken oder bessere Tonstelle verwenden."
+        ]
+      });
+    });
+  }
+
+  [...frameData.darkFrames, ...frameData.brightFrames].forEach((time) => {
+    items.push({
+      time,
+      level: "medium",
+      title: "Belichtungswarnung",
+      reason: "Die Stichprobe ist sehr dunkel oder sehr hell. Gesichter, Orte oder Handlungen könnten schlecht erkennbar sein.",
+      tasks: [
+        "Prüfen: Erkennt man die wichtigste Person oder Handlung sofort?",
+        "Gegenlicht, Fenster oder dunkle Ecken kontrollieren.",
+        "Wenn möglich: hellere Einstellung, andere Blickrichtung oder goldene Stunde nutzen."
+      ]
+    });
+  });
+
+  frameData.lowContrastFrames.forEach((time) => {
+    items.push({
+      time,
+      level: "medium",
+      title: "Schwache Bildkomposition möglich",
+      reason: "Das Bild ist technisch kontrastarm. Das kann auf leere Flächen, flaches Licht oder zu wenig Vordergrund/Tiefe hinweisen.",
+      tasks: [
+        "Prüfen: Ist der Bildraum sinnvoll gefüllt?",
+        "Gibt es Vordergrund, Tiefe oder klare Blickführung?",
+        "Motiv näher holen, Rahmen füllen oder Objekte/Personen bewusster arrangieren."
+      ]
+    });
+  });
+
+  if (frameData.tiltMeasured >= 3 && frameData.tiltAverage > 5) {
+    items.push({
+      time: null,
+      level: "medium",
+      title: "Kamera wirkt möglicherweise schief",
+      reason: `Dominante Bildkanten weichen im Schnitt um ${frameData.tiltAverage.toFixed(1)}° ab.`,
+      tasks: [
+        "Stellen mit klaren Wänden, Türen, Fenstern oder Treppen anschauen.",
+        "Prüfen: Ist die Schieflage absichtlich gestaltet?",
+        "Falls nicht: Clip begradigen oder andere Einstellung wählen."
+      ]
+    });
+  }
+
+  return items
+    .sort((a, b) => (a.time ?? Number.POSITIVE_INFINITY) - (b.time ?? Number.POSITIVE_INFINITY))
+    .slice(0, 14);
 }
 
 function renderAnalysis(frameData, audioData) {
@@ -340,8 +479,21 @@ function renderAnalysis(frameData, audioData) {
   const tiltStatus = frameData.tiltMeasured < 3 ? "unknown" : frameData.tiltAverage <= 5 ? "pass" : "warn";
   const audioStatus = !audioData.supported ? "unknown"
     : audioData.peakDb < -28 || audioData.silenceRatio > 0.55 || audioData.clippingRatio > 0.002 ? "warn" : "pass";
+  const suspicionItems = buildSuspicionReport(frameData, audioData);
+  const suspicionReport = suspicionItems.length ? `
+    <section class="suspicion-report">
+      <h4>Verdachtsbericht: gezielt prüfen</h4>
+      <p>Diese Zeitstellen sind keine automatischen Urteile. Sie zeigen, wo Schnitt, Achse, Ton-Bild-Verhältnis oder Bildgestaltung wahrscheinlich überprüft werden müssen.</p>
+      <div>${suspicionItems.map(suspicionCard).join("")}</div>
+    </section>
+  ` : `
+    <section class="suspicion-report">
+      <h4>Verdachtsbericht: keine starken Auffälligkeiten</h4>
+      <p>Die technische Stichprobe findet keine klaren Warnstellen. Für Achse und Ton-Bild-Verhältnis trotzdem den Anfang, jeden Szenenwechsel und den Schluss einmal bewusst ansehen.</p>
+    </section>
+  `;
 
-  analysisResults.innerHTML = [
+  analysisResults.innerHTML = suspicionReport + [
     resultCard(
       "Exportformat und Laufzeit",
       selectedIsMp4 && durationOk ? "pass" : "warn",
