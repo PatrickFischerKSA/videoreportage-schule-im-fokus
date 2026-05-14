@@ -662,7 +662,7 @@ h3 {
 }
 
 .auto-check > span,
-.review-item span {
+.analysis-card > span {
   display: inline-flex;
   min-height: 28px;
   align-items: center;
@@ -676,58 +676,90 @@ h3 {
 }
 
 .auto-check.pass > span,
-.review-item.pass span {
+.analysis-card.pass > span {
   background: rgba(64, 122, 85, 0.2);
   color: #234b32;
 }
 
 .auto-check.warn > span,
-.review-item.problem span {
+.analysis-card.warn > span {
   background: rgba(178, 124, 38, 0.24);
   color: #6a4314;
 }
 
+.analysis-card.unknown > span {
+  background: rgba(93, 105, 120, 0.18);
+  color: var(--muted);
+}
+
 .auto-check strong,
-.review-item h4 {
+.analysis-card h4 {
   display: block;
   margin: 0 0 4px;
   color: var(--ink);
 }
 
 .auto-check small,
-.review-item small {
+.analysis-card small {
   color: var(--muted);
 }
 
-.review-checklist {
+.analysis-button {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 12px;
+  border: 1px solid var(--blue);
+  border-radius: 7px;
+  padding: 10px 14px;
+  background: var(--blue);
+  color: var(--white);
+  font: inherit;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.analysis-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.analysis-results {
   display: grid;
   gap: 10px;
   margin-top: 12px;
 }
 
-.review-item {
+.analysis-card {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
+  grid-template-columns: 86px minmax(0, 1fr);
   gap: 10px;
+  align-items: start;
   padding: 12px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.12);
 }
 
-.review-item p {
+.analysis-card p {
   margin: 0 0 6px;
   color: var(--muted);
   font-size: 0.94rem;
 }
 
-.review-actions {
+.analysis-card strong {
+  margin-bottom: 6px;
+}
+
+.analysis-times {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  margin-top: 8px;
 }
 
-.review-actions button {
+.analysis-times button {
   min-height: 34px;
   border: 1px solid var(--line);
   border-radius: 7px;
@@ -740,13 +772,8 @@ h3 {
   cursor: pointer;
 }
 
-.review-actions button:hover {
+.analysis-times button:hover {
   border-color: var(--blue);
-}
-
-.review-actions button:disabled {
-  cursor: not-allowed;
-  opacity: 0.45;
 }
 
 .review-summary {

@@ -146,12 +146,14 @@
               </div>
             </div>
             <div class="check-panel">
-              <strong>Sichtprüfung am geladenen Video</strong>
+              <strong>Technische Analyse des geladenen Videos</strong>
               <p class="review-hint">
-                Video abspielen, an auffällige Stellen springen und jedes Kriterium mit Zeitmarke prüfen.
+                Die Analyse misst Bild, Ton, Schnitte und Bewegungswechsel direkt aus der MP4.
+                Semantische Kriterien wie Achsensprung oder Ton-Bild-Schere werden als technische Verdachtsstellen markiert.
               </p>
-              <div id="review-checklist" class="review-checklist" aria-live="polite"></div>
-              <p id="review-summary" class="review-summary">Noch kein Video ausgewählt.</p>
+              <button id="run-analysis" class="analysis-button" type="button" disabled>Technische Analyse starten</button>
+              <p id="analysis-status" class="review-summary">Noch kein Video ausgewählt.</p>
+              <div id="analysis-results" class="analysis-results" aria-live="polite"></div>
             </div>
           </aside>
         </div>
