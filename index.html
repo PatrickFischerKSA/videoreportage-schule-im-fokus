@@ -133,37 +133,25 @@
             </div>
           </div>
           <aside class="upload-check">
-            <h3>Dateicheck</h3>
+            <h3>Aktive Abgabeprüfung</h3>
             <dl id="upload-meta">
               <div><dt>Datei</dt><dd>offen</dd></div>
               <div><dt>Typ</dt><dd>MP4 erwartet</dd></div>
               <div><dt>Größe</dt><dd>offen</dd></div>
             </dl>
-            <ul>
-              <li>ca. fünf Minuten Laufzeit</li>
-              <li>verständlich hörbarer Ton</li>
-              <li>Titel und Abspann vorhanden</li>
-              <li>Fremdmaterial und Musik mit Quellen ausgewiesen</li>
-              <li>mindestens zwei Elemente: Interview, Umfrage, Off, Beobachtung, Recherche oder Szene</li>
-            </ul>
-            <div class="technical-checks">
-              <strong>Schnittprüfung</strong>
-              <ul>
-                <li>Kein Achsensprung: Blickrichtungen und Raumlogik bleiben nachvollziehbar.</li>
-                <li>Keine Ton-Bild-Schere: Ton und Bild widersprechen sich nicht unbeabsichtigt.</li>
-                <li>Schnitte stimmen: Übergänge sind sauber, rhythmisch und inhaltlich verständlich.</li>
-              </ul>
+            <div class="check-panel">
+              <strong>Automatische Checks</strong>
+              <div id="auto-checks" class="auto-checks" aria-live="polite">
+                <p>MP4 auswählen, dann werden Laufzeit, Format und Auflösung ausgelesen.</p>
+              </div>
             </div>
-            <div class="technical-checks">
-              <strong>Dreh- und Bildprüfung</strong>
-              <ul>
-                <li>Kamera ruhig und gerade halten; mit dem Handy konsequent im Querformat filmen.</li>
-                <li>Kamerabewegungen sind bewusst: Beim Umfilmen einer Person die Kamera kontrolliert mitdrehen.</li>
-                <li>Licht beachten: Gesichter sind sichtbar, Gegenlicht wird vermieden, goldene Stunde gezielt nutzen.</li>
-                <li>Bildkomposition: Vordergrund, Tiefe und Rahmen bewusst einsetzen; den Bildraum nicht leer lassen.</li>
-                <li>Motivführung: Personen und wichtige Objekte so arrangieren, dass die Aussage des Shots klar wird.</li>
-                <li>Shots passen zur Szene: Einstellungsgrößen, Perspektiven und Anschlussbilder erzählen sinnvoll weiter.</li>
-              </ul>
+            <div class="check-panel">
+              <strong>Sichtprüfung am geladenen Video</strong>
+              <p class="review-hint">
+                Video abspielen, an auffällige Stellen springen und jedes Kriterium mit Zeitmarke prüfen.
+              </p>
+              <div id="review-checklist" class="review-checklist" aria-live="polite"></div>
+              <p id="review-summary" class="review-summary">Noch kein Video ausgewählt.</p>
             </div>
           </aside>
         </div>

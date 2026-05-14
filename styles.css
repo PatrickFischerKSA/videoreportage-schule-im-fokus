@@ -620,7 +620,7 @@ h3 {
   color: var(--muted);
 }
 
-.technical-checks {
+.check-panel {
   margin-top: 18px;
   padding: 14px 16px;
   border: 1px solid var(--line);
@@ -628,14 +628,130 @@ h3 {
   background: rgba(255, 255, 255, 0.14);
 }
 
-.technical-checks strong {
+.check-panel strong {
   display: block;
   margin-bottom: 10px;
   color: var(--ink);
 }
 
-.technical-checks ul {
+.check-panel ul {
   margin: 0;
+}
+
+.auto-checks {
+  display: grid;
+  gap: 8px;
+}
+
+.auto-checks p,
+.review-hint,
+.review-summary {
+  margin: 0;
+  color: var(--muted);
+}
+
+.auto-check {
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.auto-check > span,
+.review-item span {
+  display: inline-flex;
+  min-height: 28px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 4px 9px;
+  background: rgba(93, 105, 120, 0.18);
+  color: var(--ink);
+  font-size: 0.76rem;
+  font-weight: 850;
+}
+
+.auto-check.pass > span,
+.review-item.pass span {
+  background: rgba(64, 122, 85, 0.2);
+  color: #234b32;
+}
+
+.auto-check.warn > span,
+.review-item.problem span {
+  background: rgba(178, 124, 38, 0.24);
+  color: #6a4314;
+}
+
+.auto-check strong,
+.review-item h4 {
+  display: block;
+  margin: 0 0 4px;
+  color: var(--ink);
+}
+
+.auto-check small,
+.review-item small {
+  color: var(--muted);
+}
+
+.review-checklist {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.review-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.review-item p {
+  margin: 0 0 6px;
+  color: var(--muted);
+  font-size: 0.94rem;
+}
+
+.review-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.review-actions button {
+  min-height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 7px 10px;
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.review-actions button:hover {
+  border-color: var(--blue);
+}
+
+.review-actions button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.review-summary {
+  margin-top: 12px;
+  font-weight: 850;
 }
 
 .video-placeholder span {
