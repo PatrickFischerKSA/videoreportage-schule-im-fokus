@@ -738,6 +738,51 @@ h3 {
   margin-top: 12px;
 }
 
+.capcut-panel {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+  padding: 16px;
+  border: 1px solid rgba(48, 100, 176, 0.28);
+  border-radius: 8px;
+  background: rgba(48, 100, 176, 0.1);
+}
+
+.capcut-panel h4 {
+  margin: 0 0 8px;
+  color: var(--ink);
+}
+
+.capcut-panel p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.capcut-actions,
+.capcut-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.capcut-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.capcut-grid article {
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.capcut-grid strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--ink);
+}
+
 .suspicion-report {
   padding: 14px;
   border: 1px solid rgba(178, 124, 38, 0.38);
@@ -1057,7 +1102,8 @@ footer a {
   }
 
   .suspicion-card,
-  .analysis-card {
+  .analysis-card,
+  .capcut-grid {
     grid-template-columns: 1fr;
   }
 

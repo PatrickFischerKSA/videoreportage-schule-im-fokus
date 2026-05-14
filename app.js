@@ -468,6 +468,7 @@ function buildSuspicionReport(frameData, audioData) {
         "Vor und nach der Zeitmarke je drei Sekunden anschauen.",
         "Prüfen: Blickt oder bewegt sich die Person nach dem Schnitt logisch weiter?",
         "Falls die Raumachse kippt: Zwischenshot, Establishing Shot oder anderen Anschluss verwenden.",
+        "CapCut: Schnittstelle öffnen, Clipkante verschieben oder B-Roll/Zwischenshot über den Sprung legen.",
         ...transcriptTasks(context, "cut")
       ]
     });
@@ -485,6 +486,7 @@ function buildSuspicionReport(frameData, audioData) {
         "Prüfen: Ist die Kamerabewegung motiviert oder nur unruhig?",
         "Beim Umfilmen: Bleibt die Person räumlich verständlich?",
         "Falls es wackelt: ruhigere Einstellung oder kürzeren Ausschnitt wählen.",
+        "CapCut: Stabilisierung testen, aber nachher prüfen, ob Bildränder und Schwenk natürlich bleiben.",
         ...transcriptTasks(context, "motion")
       ]
     });
@@ -503,6 +505,7 @@ function buildSuspicionReport(frameData, audioData) {
           "Prüfen: Gibt es hier Bildinhalt, der Ton erwarten lässt?",
           "Bei Off-Kommentar: Passt die Stille zur Bildaussage oder entsteht Ton-Bild-Schere?",
           "Falls nötig: Atmo, O-Ton oder Off sauber ergänzen.",
+          "CapCut: Auto Captions oder importierte SRT gegenhören; bei Tonloch Atmo/Off neu setzen.",
           ...transcriptTasks(context, "silence")
         ]
       });
@@ -520,6 +523,7 @@ function buildSuspicionReport(frameData, audioData) {
           "Prüfen: Klingt die Stimme kratzig, zu laut oder unangenehm?",
           "Falls Musik oder Geräusch dominiert: Ist das inhaltlich gewollt?",
           "Pegel senken oder bessere Tonstelle verwenden.",
+          "CapCut: Noise Reduction/Voice Enhancement und Lautstärke testen, danach Originalvergleich machen.",
           ...transcriptTasks(context, "audio")
         ]
       });
@@ -538,6 +542,7 @@ function buildSuspicionReport(frameData, audioData) {
         "Prüfen: Erkennt man die wichtigste Person oder Handlung sofort?",
         "Gegenlicht, Fenster oder dunkle Ecken kontrollieren.",
         "Wenn möglich: hellere Einstellung, andere Blickrichtung oder goldene Stunde nutzen.",
+        "CapCut: Adjust/Enhance vorsichtig testen; Ziel ist erkennbare Handlung, nicht künstlicher Look.",
         ...transcriptTasks(context, "image")
       ]
     });
@@ -555,6 +560,7 @@ function buildSuspicionReport(frameData, audioData) {
         "Prüfen: Ist der Bildraum sinnvoll gefüllt?",
         "Gibt es Vordergrund, Tiefe oder klare Blickführung?",
         "Motiv näher holen, Rahmen füllen oder Objekte/Personen bewusster arrangieren.",
+        "CapCut: Cropping/Reframe nur nutzen, wenn dadurch Motiv und Blickführung klarer werden.",
         ...transcriptTasks(context, "composition")
       ]
     });
@@ -575,7 +581,8 @@ function buildSuspicionReport(frameData, audioData) {
         tasks: [
           "Prüfen: Ist die Quelle im Bild, Off oder Abspann klar ausgewiesen?",
           "Prüfen: Zeigt das Bild Material, das zur Behauptung passt, oder entsteht Ton-Bild-Schere?",
-          "Wenn nur Meinung hörbar ist: Als Meinung markieren oder belastbare Quelle ergänzen."
+          "Wenn nur Meinung hörbar ist: Als Meinung markieren oder belastbare Quelle ergänzen.",
+          "CapCut: Quellen als Texttafel, Bauchbinde oder Abspannzeile ergänzen."
         ]
       });
     });
@@ -589,7 +596,8 @@ function buildSuspicionReport(frameData, audioData) {
       tasks: [
         "Stellen mit klaren Wänden, Türen, Fenstern oder Treppen anschauen.",
         "Prüfen: Ist die Schieflage absichtlich gestaltet?",
-        "Falls nicht: Clip begradigen oder andere Einstellung wählen."
+        "Falls nicht: Clip begradigen oder andere Einstellung wählen.",
+        "CapCut: Rotation/Crop verwenden und kontrollieren, ob dadurch keine wichtigen Bildteile verloren gehen."
       ]
     });
   }
